@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tapshyrma_bloc_07/app/bloc/quiz_bloc.dart';
@@ -12,7 +14,7 @@ class QuizView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onTap = BlocProvider.of<QuizBloc>(context);
+    // final onTap = BlocProvider.of<QuizBloc>(context);
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
@@ -23,11 +25,13 @@ class QuizView extends StatelessWidget {
           style: TextStyleRel.colorBlack25Bold,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: BlocBuilder<QuizBloc, QuizState>(
-          builder: (context, state) {
-            return Column(
+      body: BlocBuilder<QuizBloc, QuizState>(
+        builder: (context, state) {
+          log(context.read<QuizBloc>().suroonuAlipKel().toString());
+
+          return Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
@@ -35,26 +39,26 @@ class QuizView extends StatelessWidget {
                   child: Center(
                     child: state.buutubu == true
                         ? AlertDialog(
-                            title: Text("Buttu!"),
+                            title: const Text("Buttu!"),
                             actions: [
                               TextButton(
                                 onPressed: () {
                                   // state.buutubu = false;
 
                                   // context.watch<HomeCubit>().alertBloc();
-                                  BlocProvider.of<QuizBloc>(context,
-                                          listen: false)
-                                      .add(Increment());
 
                                   // state.iconkalar = [];
                                   // setState(() {});
+                                  // BlocProvider.of<QuizBloc>(context,
+                                  //         listen: false)
+                                  //     .mapEventToState(AlertEvent());
                                 },
                                 child: const Text("Kaira bashta"),
                               ),
                             ],
                           )
                         : Text(
-                            context.read<QuizBloc>().) as String,
+                            context.read<QuizBloc>().suroonuAlipKel(),
                             style: TextStyleRel.colorWhite35,
                             textAlign: TextAlign.center,
                           ),
@@ -69,8 +73,8 @@ class QuizView extends StatelessWidget {
                         bgColor: ColorRel.colorGreen,
                         title: StringRel.buttonTuura,
                         onPressed: () {
-                          onTap.add(Otkoz());
-
+                          BlocProvider.of<QuizBloc>(context)
+                              .mapEventToState(UserdinJoobuEvent(true));
                         },
                       ),
                       SizedBox(
@@ -81,22 +85,23 @@ class QuizView extends StatelessWidget {
                         bgColor: ColorRel.colorRed,
                         title: StringRel.buttonTuuraEmes,
                         onPressed: () {
+                          BlocProvider.of<QuizBloc>(context)
+                              .mapEventToState(UserdinJoobuEvent(false));
                           // ignore: invalid_use_of_visible_for_testing_member
-                          onTap.add(UserdinJoobu());
                         },
                       ),
                       Expanded(
                         child: Row(
-                          children: state.iconkalar!,
+                          children: state.iconkalar,
                         ),
                       ),
                     ],
                   ),
                 )
               ],
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -9,7 +9,7 @@ class QuizPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => QuizBloc(),
+      create: (_) => QuizBloc(),
       child: const QuizView(),
     );
   }
