@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,8 +26,6 @@ class QuizView extends StatelessWidget {
       ),
       body: BlocBuilder<QuizBloc, QuizState>(
         builder: (context, state) {
-          log(context.read<QuizBloc>().suroonuAlipKel().toString());
-
           return Padding(
             padding: const EdgeInsets.all(25.0),
             child: Column(
@@ -73,8 +70,7 @@ class QuizView extends StatelessWidget {
                         bgColor: ColorRel.colorGreen,
                         title: StringRel.buttonTuura,
                         onPressed: () {
-                          BlocProvider.of<QuizBloc>(context)
-                              .mapEventToState(UserdinJoobuEvent(true));
+                          QuizBloc().add(UserdinJoobuEvent(true));
                         },
                       ),
                       SizedBox(

@@ -8,7 +8,9 @@ part 'quiz_event.dart';
 part 'quiz_state.dart';
 
 class QuizBloc extends Bloc<QuizEvent, QuizState> {
-  QuizBloc() : super(QuizState(buutubu: false, iconkalar: [], index: 1));
+  QuizBloc() : super(QuizState(buutubu: false, iconkalar: [], index: 0)) {
+    on<UserdinJoobuEvent>();
+  }
 
   Stream<QuizState> mapEventToState(QuizEvent event) async* {
     log(event.toString());
