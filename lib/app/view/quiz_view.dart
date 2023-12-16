@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tapshyrma_bloc_07/app/bloc/quiz_bloc.dart';
 import 'package:tapshyrma_bloc_07/app/utils/string_rel.dart';
 import 'package:tapshyrma_bloc_07/app/utils/text_style_rel.dart';
 
 import '../common_widgets/button_widget.dart';
+import '../cubit/quiz_cubit.dart';
 import '../utils/color_rel.dart';
 
 class QuizView extends StatelessWidget {
@@ -24,8 +23,9 @@ class QuizView extends StatelessWidget {
           style: TextStyleRel.colorBlack25Bold,
         ),
       ),
-      body: BlocBuilder<QuizBloc, QuizState>(
+      body: BlocBuilder<QuizCubit, QuizState>(
         builder: (context, state) {
+          final quizCubit = context.read<QuizCubit>();
           return Padding(
             padding: const EdgeInsets.all(25.0),
             child: Column(
@@ -43,7 +43,9 @@ class QuizView extends StatelessWidget {
                                   // state.buutubu = false;
 
                                   // context.watch<HomeCubit>().alertBloc();
-
+                                  BlocProvider.of<QuizCubit>(context,
+                                          listen: false)
+                                      .alertBloc();
                                   // state.iconkalar = [];
                                   // setState(() {});
                                   // BlocProvider.of<QuizBloc>(context,
@@ -55,7 +57,7 @@ class QuizView extends StatelessWidget {
                             ],
                           )
                         : Text(
-                            context.read<QuizBloc>().suroonuAlipKel(),
+                            quizCubit.suroonuAlipKel(),
                             style: TextStyleRel.colorWhite35,
                             textAlign: TextAlign.center,
                           ),
@@ -70,7 +72,9 @@ class QuizView extends StatelessWidget {
                         bgColor: ColorRel.colorGreen,
                         title: StringRel.buttonTuura,
                         onPressed: () {
-                          QuizBloc().add(UserdinJoobuEvent(true));
+                          context
+                              .read<QuizCubit>()
+                              .userdinJoobuEvent(userJoop: true);
                         },
                       ),
                       SizedBox(
@@ -81,14 +85,13 @@ class QuizView extends StatelessWidget {
                         bgColor: ColorRel.colorRed,
                         title: StringRel.buttonTuuraEmes,
                         onPressed: () {
-                          BlocProvider.of<QuizBloc>(context)
-                              .mapEventToState(UserdinJoobuEvent(false));
+                          quizCubit.userdinJoobuEvent(userJoop: false);
                           // ignore: invalid_use_of_visible_for_testing_member
                         },
                       ),
                       Expanded(
                         child: Row(
-                          children: state.iconkalar,
+                          children: state.iconkalar!,
                         ),
                       ),
                     ],

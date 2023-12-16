@@ -4,14 +4,16 @@ class QuizService {
   static String suroonuAlypKel(int index) {
     if (index < quizLocalData.suroolorJooptor.length) {
       return quizLocalData.suroolorJooptor[index].suroolor!;
-    } else
+    } else {
       return "";
+    }
   }
 
   static bool jooptuAlypKel(int index) {
     if (index < quizLocalData.suroolorJooptor.length) {
       return quizLocalData.suroolorJooptor[index].jooptop!;
-    } else
+    } else {
       return false;
+    }
   }
 }

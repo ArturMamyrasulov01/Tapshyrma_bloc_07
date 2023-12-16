@@ -14,7 +14,6 @@ class ButtonWidget extends StatelessWidget {
     required this.onPressed,
     required this.title,
   });
- 
 
   @override
   Widget build(BuildContext context) {
