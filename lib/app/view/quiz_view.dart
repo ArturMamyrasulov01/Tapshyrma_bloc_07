@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tapshyrma_bloc_07/app.dart';
+import 'package:tapshyrma_bloc_07/app/data/quiz_local_data.dart';
 import 'package:tapshyrma_bloc_07/app/utils/string_rel.dart';
 import 'package:tapshyrma_bloc_07/app/utils/text_style_rel.dart';
 
+import '../common_widgets/alert_dialog_widget.dart';
 import '../common_widgets/button_widget.dart';
 import '../cubit/quiz_cubit.dart';
 import '../utils/color_rel.dart';
@@ -12,17 +15,10 @@ class QuizView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final onTap = BlocProvider.of<QuizBloc>(context);
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          StringRel.title,
-          style: TextStyleRel.colorBlack25Bold,
-        ),
-      ),
+      appBar: MyAppBar(),
       body: BlocBuilder<QuizCubit, QuizState>(
         builder: (context, state) {
           final quizCubit = context.read<QuizCubit>();
@@ -35,31 +31,21 @@ class QuizView extends StatelessWidget {
                   flex: 2,
                   child: Center(
                     child: state.buutubu == true
-                        ? AlertDialog(
-                            title: const Text("Buttu!"),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  // state.buutubu = false;
-
-                                  // context.watch<HomeCubit>().alertBloc();
-                                  BlocProvider.of<QuizCubit>(context,
-                                          listen: false)
-                                      .alertBloc();
-                                  // state.iconkalar = [];
-                                  // setState(() {});
-                                  // BlocProvider.of<QuizBloc>(context,
-                                  //         listen: false)
-                                  //     .mapEventToState(AlertEvent());
-                                },
-                                child: const Text("Kaira bashta"),
+                        ? const AlertDialogWidget()
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                "${quizCubit.state.index + 1}/${quizLocalData.suroolorJooptor.length}",
+                                style: TextStyleRel.colorWhite35,
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                quizCubit.suroonuAlipKel(),
+                                style: TextStyleRel.colorWhite35,
+                                textAlign: TextAlign.center,
                               ),
                             ],
-                          )
-                        : Text(
-                            quizCubit.suroonuAlipKel(),
-                            style: TextStyleRel.colorWhite35,
-                            textAlign: TextAlign.center,
                           ),
                   ),
                 ),
@@ -72,9 +58,7 @@ class QuizView extends StatelessWidget {
                         bgColor: ColorRel.colorGreen,
                         title: StringRel.buttonTuura,
                         onPressed: () {
-                          context
-                              .read<QuizCubit>()
-                              .userdinJoobuEvent(userJoop: true);
+                          quizCubit.userdinJoobuEvent(userJoop: true);
                         },
                       ),
                       SizedBox(
